@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hate Speech Detection</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            color: #ff477e;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #555;
+            font-size: 0.9em;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: 2px solid #ff477e;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            color: #fff;
+            background: #ff477e;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #e63e6f;
+        }
+        #result {
+            margin-top: 20px;
+            color: #333;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hate Speech Detector</h1>
+        <p>Analyze and classify the text for hate speech.</p>
+        <form id="sentimentForm">
+            <input type="text" id="tweet" name="tweet" placeholder="Enter text here..." required>
+            <button type="submit">Analyze</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('sentimentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const tweet = document.getElementById('tweet').value;
+            
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tweet: tweet })
+            });
+
+            const sentiment = await response.text();
+            document.getElementById('result').innerText = `Speech Analysis: ${sentiment}`;
+        });
+    </script>
+</body>
+</html>
